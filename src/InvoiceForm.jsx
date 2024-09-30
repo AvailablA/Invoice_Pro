@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, Text } from "@chakra-ui/react";
+import { FormControl, Text, Input, Button } from "@chakra-ui/react";
 import parties from "./parties"; // Importing the parties data
 
 const InvoiceForm = () => {
@@ -20,6 +20,17 @@ const InvoiceForm = () => {
     const partyDetails = parties.find((party) => party.name === selectName);
     setSelectBuyerParty(partyDetails);
   };
+
+  const [productName, setProductName] = useState("");
+  const handleName = (e)=>{
+    const name = e.target.value;
+    setProductName(name);
+  }
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+    console.log("Product Name: ", productName)
+  }
+
 
   return (
     <>
@@ -57,6 +68,19 @@ const InvoiceForm = () => {
           ))}
         </select>
         <br />
+        <Text>Product Description</Text>
+        <Text>Product Name: </Text>
+          <Input
+            type="text"
+            name= "name"
+            placeholder="Enter the Product name"
+            value={productName}
+            onChange={handleName}
+             />
+
+        <Button mt={4} colorScheme="blue" type="submit">
+        Submit
+      </Button>
       </FormControl>
 
       <hr />
@@ -81,7 +105,6 @@ const InvoiceForm = () => {
 
       {selectBuyerParty && (
         <>
-          <hr />
           <h4>
             <Text>Consignee Name: {selectBuyerParty.name}</Text>
           </h4>
@@ -89,6 +112,13 @@ const InvoiceForm = () => {
           <Text>City: {selectBuyerParty.city}</Text>
           <Text>State: {selectBuyerParty.state}</Text>
           <Text>GST No: {selectBuyerParty.gstNo}</Text>
+          <hr/>
+        </>
+      )}
+
+      {productName && (
+        <>
+          <Text>Product name: {productName}</Text>
         </>
       )}
     </>
