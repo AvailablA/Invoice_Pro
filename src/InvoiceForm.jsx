@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, Text, Input, Button } from "@chakra-ui/react";
+import { FormControl, Text, Input, Button, Box } from "@chakra-ui/react";
 import parties from "./parties"; // Importing the parties data
 
 const InvoiceForm = () => {
@@ -21,14 +21,42 @@ const InvoiceForm = () => {
     setSelectBuyerParty(partyDetails);
   };
 
+  const [error, setError]= useState("");
+
   const [productName, setProductName] = useState("");
   const handleName = (e)=>{
     const name = e.target.value;
     setProductName(name);
   }
+
+  const [productHSNCode, setProductHSNCode] = useState("");
+  const handleCode = (e)=>{
+    const hsnCode = e.target.value;
+    setProductHSNCode(hsnCode);
+  }
+
+  const [productQuantity, setProductQuantity] = useState("");
+  const handleQuantity = (e)=>{
+    const quantity = e.target.value;
+    setProductQuantity(quantity);
+  }
+
+  const [productRate, setProductRate] = useState("");
+  const handleRate = (e)=>{
+    const rate = e.target.value;
+    setProductRate(rate);
+  }
+
   const handleSubmit =(e)=>{
     e.preventDefault();
-    console.log("Product Name: ", productName)
+    if (!productName || !productHSNCode || !productQuantity || !productRate) {
+      setError("Please fill the details of the product.");
+      return;
+    }
+    console.log("Product Name: ", productName);
+    console.log("Product HSN-Code: ", productHSNCode);
+    console.log("Product Quantity: ", productQuantity);
+    console.log("Product Rate: ", productRate);
   }
 
 
@@ -68,19 +96,45 @@ const InvoiceForm = () => {
           ))}
         </select>
         <br />
-        <Text>Product Description</Text>
-        <Text>Product Name: </Text>
-          <Input
-            type="text"
-            name= "name"
-            placeholder="Enter the Product name"
-            value={productName}
-            onChange={handleName}
-             />
+        <FormControl as="form" onSubmit={handleSubmit}>
+          <Text>Product Description</Text>
+          <Text>Product Name: </Text>
+            <Input
+              type="text"
+              placeholder="Enter the Product name"
+              value={productName}
+              onChange={handleName}
+            />
 
-        <Button mt={4} colorScheme="blue" type="submit">
-        Submit
-      </Button>
+            <Text>Product HSN Code</Text>
+            <Input
+              type="text"
+              // name="code"
+              placeholder="Enter Product HSN Code"
+              value={productHSNCode}
+              onChange={handleCode}
+            />
+
+            <Text>Product Quantity in Kg</Text>
+            <Input
+              type="text"
+              placeholder="Quantity"
+              value={productQuantity}
+              onChange={handleQuantity}
+            />
+
+            <Text>Product Rate in Kg</Text>
+            <Input
+              type="text"
+              placeholder="Rate"
+              value={productRate}
+              onChange={handleRate}
+            />
+
+            <Button mt={4} colorScheme="blue" type="submit">
+              Submit
+            </Button>
+          </FormControl>
       </FormControl>
 
       <hr />
@@ -116,10 +170,16 @@ const InvoiceForm = () => {
         </>
       )}
 
-      {productName && (
-        <>
-          <Text>Product name: {productName}</Text>
-        </>
+      {productName && productHSNCode && productQuantity && productRate &&(
+        <Box mt={4}>
+          <Text fontSize="lg" fontWeight="bold">
+            Product Details:
+          </Text>
+          <Text>Product Name: {productName}</Text>
+          <Text>HSN Code: {productHSNCode}</Text>
+          <Text>Quantity in Kg: {productQuantity}</Text>
+          <Text>Rate per Kg: {productRate}</Text>
+        </Box>
       )}
     </>
   );
