@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { FormControl, Text, Input, Button, Box, useColorModeValue, VStack, HStack, Divider } from "@chakra-ui/react";
+import { FormControl, Text, Input, Button, Box, useColorModeValue, VStack, HStack, Divider, background, color } from "@chakra-ui/react";
 import parties from "./parties"; // Importing the parties data
 
 
-const InvoiceForm = () => {
+const InvoiceForm = () => 
+{
   // Seller data
   const [selectSellerParty, setSelectSellerParty] = useState(null);
 
@@ -44,6 +45,7 @@ const InvoiceForm = () => {
       width: '100%', // Make the select fill the container's width
       height: '30px', // Set the desired height for the select element
       padding: '5px', // Adjust padding as needed
+      gap: '10px'
       // Add other select styles as needed (e.g., border, background-color)
     },
     form: {
@@ -57,6 +59,13 @@ const InvoiceForm = () => {
       height: '20px', // Set the desired height for the select element
       //padding: '5px', // Adjust padding as needed
     },
+    btn:{
+      backgroundColor:"lightGold",
+      width: '100px',
+      height: '38px',
+      borderRadius: '50px'
+
+    }
   }
   const [error, setError] = useState("");
 
@@ -153,56 +162,65 @@ const InvoiceForm = () => {
 
       {/* Product Information */}
       <FormControl as="form" onSubmit={handleSubmit} style={styles.form}>
-      <Text style={styles.text}>Product Description</Text>
+        <Text style={styles.text}>Product Description</Text>
 
-      <Text>Product Name: 
-        <Input 
-          type="text" 
-          placeholder="Enter the Product name" 
-          value={productName} 
-          onChange={handleName} 
-          style={styles.input}
-        />
-      </Text>
-      
+        {/* Use VStack for vertical alignment of input fields */}
+        <VStack spacing={4} align="stretch" w="100%">
 
-      <Text>Product HSN Code : 
-        <Input 
-          type="text" 
-          placeholder="Enter Product HSN Code" 
-          value={productHSNCode} 
-          onChange={handleCode} 
-          style={styles.input} 
-        />
-      </Text>
-      
+          <HStack justifyContent="space-between" w="100%">
+            <Text w="65%">Product Name:</Text>
+            <Input
+              type="text"
+              placeholder="Enter the Product name"
+              value={productName}
+              onChange={handleName}
+              style={styles.input}
+              w="58%" // Align input width relative to parent
+            />
+          </HStack>
 
-      <Text>Product Quantity in Kg : 
-        <Input 
-          type="text" 
-          placeholder="Quantity" 
-          value={productQuantity} 
-          onChange={handleQuantity} 
-          style={styles.input} 
-        />
-      </Text>
-      
+          <HStack justifyContent="space-between" w="100%">
+            <Text w="65%">Product HSN Code:</Text>
+            <Input
+              type="text"
+              placeholder="Enter Product HSN Code"
+              value={productHSNCode}
+              onChange={handleCode}
+              style={styles.input}
+              w="58%" // Align input width relative to parent
+            />
+          </HStack>
 
-      <Text>Product Rate in Kg : 
-        <Input 
-          type="text" 
-          placeholder="Rate" 
-          value={productRate} 
-          onChange={handleRate} 
-          style={styles.input} 
-        />
-      </Text>
+          <HStack justifyContent="space-between" w="100%">
+            <Text w="65%">Product Quantity in Kg:</Text>
+            <Input
+              type="text"
+              placeholder="Quantity"
+              value={productQuantity}
+              onChange={handleQuantity}
+              style={styles.input}
+              w="58%" // Align input width relative to parent
+            />
+          </HStack>
 
-      
-      <Button mt={4} colorScheme="blue" type="submit">
-        Submit
-      </Button>
-      {error && <Text color="red.500">{error}</Text>}
+          <HStack justifyContent="space-between" w="100%">
+            <Text w="65%">Product Rate in Kg:</Text>
+            <Input
+              type="text"
+              placeholder="Rate"
+              value={productRate}
+              onChange={handleRate}
+              style={styles.input}
+              w="58%" // Align input width relative to parent
+            />
+          </HStack>
+
+        </VStack>
+
+        <Button mt={4} type="submit" style={styles.btn}>
+          Submit
+        </Button>
+        {error && <Text color="red.500">{error}</Text>}
     </FormControl>
 
       {showPreview && (
