@@ -48,6 +48,13 @@ const InvoiceForm = () =>
       gap: '10px'
       // Add other select styles as needed (e.g., border, background-color)
     },
+    text1: {
+      width: '100%', // Make the select fill the container's width
+      height: '30px', // Set the desired height for the select element
+      padding: '5px', // Adjust padding as needed
+      gap: '10px'
+      // Add other select styles as needed (e.g., border, background-color)
+    },
     form: {
       display: 'flex',
       flexDirection: 'column', // Change to column for vertical layout
@@ -81,7 +88,21 @@ const InvoiceForm = () =>
   const [productRate, setProductRate] = useState("");
   const handleRate = (e) => setProductRate(e.target.value);
 
+  const [taxableValue, setTaxableValue] = useState(0);
+
+  const [gstType, setGstType] = useState(""); // for GST selection
+  
+  const handleGstSelect = (e) => 
+  {
+    const selectedGst = e.target.value;
+    setGstType(selectedGst);
+    calculateTotal(selectedGst);
+  }
+  const [gstAmount, setGstAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+
   const [showPreview, setShowPreview] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,8 +110,33 @@ const InvoiceForm = () =>
       setError("Please fill the details of the product.");
       return;
     }
+
+    const quantity = parseFloat(productQuantity);
+    const rate = parseFloat(productRate);
+    if (isNaN(quantity) || isNaN(rate))
+    {
+      setError("Please enter valid numerical values for quantity and rate.");
+      return;
+    }
+
+    const taxable = quantity * rate ;
+    setTaxableValue(taxable);
+    setError("");
     setShowPreview(true);
+    calculateTotal(gstType, taxable);
   };
+
+  // Function to calculate GST and total
+   const calculateTotal = (gstType, taxable = taxableValue) => {
+     let gst = 0;
+     if (gstType === "sgst-cgst") {
+       gst = (9 + 9) * taxable / 100; // 9% SGST + 9% CGST
+     } else if (gstType === "igst") {
+       gst = 18 * taxable / 100; // 18% IGST
+     }
+     setGstAmount(gst);
+     setTotalAmount(taxable + gst);
+   };
 
 
   return (
@@ -227,11 +273,11 @@ const InvoiceForm = () =>
         <>
           <Divider my={6} />
           <Box bg="gray.50" p={5} borderRadius="md" boxShadow="md" w="100%">
-            <Text fontSize="lg" fontWeight="bold">Invoice Preview</Text>
+            <Text textAlign="center" fontSize="lg" fontWeight="bold">Invoice Preview</Text>
 
             {/* Seller Information */}
             {selectSellerParty && (
-              <Box mt={4}>
+              <Box mt={4} >
                 <Text fontWeight="bold">Seller Information:</Text>
                 <Text>Name: {selectSellerParty.name}</Text>
                 <Text>Address: {selectSellerParty.address}</Text>
@@ -243,8 +289,8 @@ const InvoiceForm = () =>
 
             {/* Buyer Information */}
             {selectBuyerParty && (
-              <Box mt={4}>
-                <Text fontWeight="bold">Buyer Information:</Text>
+              <Box mt={4} >
+                <Text fontWeight="bold" >Buyer Information:</Text>
                 <Text>Name: {selectBuyerParty.name}</Text>
                 <Text>Address: {selectBuyerParty.address}</Text>
                 <Text>City: {selectBuyerParty.city}</Text>
@@ -260,6 +306,20 @@ const InvoiceForm = () =>
               <Text>HSN Code: {productHSNCode}</Text>
               <Text>Quantity in Kg: {productQuantity}</Text>
               <Text>Rate per Kg: {productRate}</Text>
+              <Text>Taxable Value : ₹{taxableValue}</Text>
+
+              
+               <HStack mt={4}>
+                 <Text>GST Type:</Text>
+                 <select w="30%" value={gstType} onChange={handleGstSelect}>
+                   <option value="" disabled>Select GST</option>
+                   <option value="sgst-cgst">SGST 9% + CGST 9%</option>
+                   <option value="igst">IGST 18%</option>
+                 </select>
+               </HStack>
+
+               <Text mt={4}>GST Amount: ₹{gstAmount}</Text>
+               <Text fontWeight="bold" mt={2}>Total: ₹{totalAmount}</Text>
             </Box>
           </Box>
         </>
