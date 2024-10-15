@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { FormControl, Text, Input, Button, Box, useColorModeValue, VStack, HStack, Divider, background, color } from "@chakra-ui/react";
+import { FormControl, Text, Input, Button, Box, VStack, HStack, Divider } from "@chakra-ui/react";
 import parties from "./parties"; // Importing the parties data
+import './InvoiceForm.css';
 
 
-const InvoiceForm = () => 
-{
+const InvoiceForm = () => {
+
+  // const [invoiceNo, setInvoiceNo] = useState(0);
+
   // Seller data
   const [selectSellerParty, setSelectSellerParty] = useState(null);
 
@@ -22,58 +25,23 @@ const InvoiceForm = () =>
     const partyDetails = parties.find((party) => party.name === selectName);
     setSelectBuyerParty(partyDetails);
   };
-  // Color theme based on Chakra UI's colorModeValue hook
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.700", "gray.100");
-  const styles = {
-    container: {
-      display: 'flex', // Ensure proper layout for inline elements
-      flexDirection: 'column', // Text and select appear vertically
-      alignItems: 'center', // Center content horizontally
-      width: '300px',
-      height: '150px',
-    },
-    text: {
-      fontSize: 'xl',
-      fontWeight: 'bold',
-      color: textColor,
-      textAlign: 'center',
-      marginBottom: '10px', // Add some spacing between text and select
-      // marginLeft: '5px 
-    },
-    select: {
-      width: '100%', // Make the select fill the container's width
-      height: '30px', // Set the desired height for the select element
-      padding: '5px', // Adjust padding as needed
-      gap: '10px'
-      // Add other select styles as needed (e.g., border, background-color)
-    },
-    text1: {
-      width: '100%', // Make the select fill the container's width
-      height: '30px', // Set the desired height for the select element
-      padding: '5px', // Adjust padding as needed
-      gap: '10px'
-      // Add other select styles as needed (e.g., border, background-color)
-    },
-    form: {
-      display: 'flex',
-      flexDirection: 'column', // Change to column for vertical layout
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-    },
-    input: {
-      marginRight:'13px',
-      height: '20px', // Set the desired height for the select element
-      //padding: '5px', // Adjust padding as needed
-    },
-    btn:{
-      backgroundColor:"lightGold",
-      width: '100px',
-      height: '38px',
-      borderRadius: '50px'
 
-    }
-  }
+  // Transport details
+  const [transportStart, setTransportStart] = useState("");
+  const handleTransportStart = (e) => setTransportStart(e.target.value);
+
+  const [transportEnd, setTransportEnd] = useState("");
+  const handleTransportEnd = (e) => setTransportEnd(e.target.value);
+
+  const [transporterName, setTransporterName] = useState("");
+  const handleTransporterName = (e) => setTransporterName(e.target.value);
+
+  const [truckNumber, setTruckNumber] = useState("");
+  const handleTruckNumber = (e) => setTruckNumber(e.target.value);
+
+  const [lrNumber, setLrNumber] = useState("");
+  const handleLrNumber = (e) => setLrNumber(e.target.value);
+
   const [error, setError] = useState("");
 
   const [productName, setProductName] = useState("");
@@ -91,112 +59,90 @@ const InvoiceForm = () =>
   const [taxableValue, setTaxableValue] = useState(0);
 
   const [gstType, setGstType] = useState(""); // for GST selection
-  
-  const handleGstSelect = (e) => 
-  {
+  const handleGstSelect = (e) => {
     const selectedGst = e.target.value;
     setGstType(selectedGst);
     calculateTotal(selectedGst);
-  }
+  };
+
   const [gstAmount, setGstAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-
   const [showPreview, setShowPreview] = useState(false);
 
+  const [invoiceNo, setInvoiceNo] = useState(""); // New state for invoice number
+  const handleInvoiceNo = (e)=> setInvoiceNo(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!productName || !productHSNCode || !productQuantity || !productRate) {
-      setError("Please fill the details of the product.");
+    if (!productName || !productHSNCode || !productQuantity || !productRate || !transportStart || !transportEnd || !transporterName || !truckNumber || !lrNumber) {
+      setError("Please fill all the required fields.");
       return;
     }
 
     const quantity = parseFloat(productQuantity);
     const rate = parseFloat(productRate);
-    if (isNaN(quantity) || isNaN(rate))
-    {
+    if (isNaN(quantity) || isNaN(rate)) {
       setError("Please enter valid numerical values for quantity and rate.");
       return;
     }
 
-    const taxable = quantity * rate ;
+    const taxable = quantity * rate;
     setTaxableValue(taxable);
     setError("");
     setShowPreview(true);
     calculateTotal(gstType, taxable);
+
+//     Generate random invoice number (this can be replaced with any other method for invoice numbering)
+//    const newInvoiceNo = `INV-${Math.floor(Math.random() * 1000000)}`;
+//    setInvoiceNo(newInvoiceNo);
   };
 
   // Function to calculate GST and total
-   const calculateTotal = (gstType, taxable = taxableValue) => {
-     let gst = 0;
-     if (gstType === "sgst-cgst") {
-       gst = (9 + 9) * taxable / 100; // 9% SGST + 9% CGST
-     } else if (gstType === "igst") {
-       gst = 18 * taxable / 100; // 18% IGST
-     }
-     setGstAmount(gst);
-     setTotalAmount(taxable + gst);
-   };
-
+  const calculateTotal = (gstType, taxable = taxableValue) => {
+    let gst = 0;
+    if (gstType === "sgst-cgst") {
+      gst = (9 + 9) * taxable / 100; // 9% SGST + 9% CGST
+    } else if (gstType === "igst") {
+      gst = 18 * taxable / 100; // 18% IGST
+    }
+    setGstAmount(gst);
+    setTotalAmount(taxable + gst);
+  };
 
   return (
-    <VStack 
-      spacing={4} 
-      bg="rgb(224,224,224)" 
-      border="2px solid black" 
-      p={50} 
-      borderRadius="md" 
-      boxShadow="lg" 
-      w="100%" 
-      maxW="1100px" 
-      m="auto">
+    <VStack spacing={4} className="invoice-form-wrapper">
+      <Text className="form-header">Tax Invoice</Text>
+      <HStack className="input-row">
+            <Text className="input-label">Invoice No. :</Text>
+            <Input value={invoiceNo} onChange={handleInvoiceNo} className="input-field" />
+      </HStack>
 
-      <Text style={styles.text}>Tax Invoice</Text>
-
-      <HStack 
-        spacing={8} 
-        justifyContent="space-between" 
-        alignItems="start" 
-        w="100%">
-
-
-        {/* Seller Information Card */}
-        <Box 
-          bg={bgColor} 
-          border="1px solid #ddd" 
-          p={4} 
-          borderRadius="md" 
-          w="48%">
-
-
+      {/* Seller & Buyer Info */}
+      <HStack spacing={8} justifyContent="space-between" className="seller-buyer-wrapper">
+        <Box className="party-box">
           <FormControl>
-            <Text 
-              fontSize="xl" 
-              fontWeight="bold" 
-              color={textColor} 
-              textAlign="center"
-              >
-
-              Seller Information
-            </Text>
-            
-              <select style={styles.select} value={selectSellerParty?.name || ""} onChange={sellerPartySelect}>
-                <option value="" disabled>Select Seller Firm Name</option>
-                {parties.map((party, index) => (
-                  <option key={index} value={party.name}>{party.name}</option>
-                ))}
-              </select>
-          
+            <Text className="party-header">Seller Information</Text>
+            <select
+              value={selectSellerParty?.name || ""}
+              onChange={sellerPartySelect}
+              className="party-select"
+            >
+              <option value="" disabled>Select Seller Firm Name</option>
+              {parties.map((party, index) => (
+                <option key={index} value={party.name}>{party.name}</option>
+              ))}
+            </select>
           </FormControl>
         </Box>
 
-        {/* Buyer Information Card */}
-        <Box bg={bgColor} border="1px solid #ddd" p={4} borderRadius="md" w="48%">
+        <Box className="party-box">
           <FormControl>
-            <Text fontSize="xl" fontWeight="bold" color={textColor} textAlign="center">
-              Buyer Information
-            </Text>
-            <select style={styles.select} value={selectBuyerParty?.name || ""} onChange={buyerPartySelect}>
+            <Text className="party-header">Buyer Information</Text>
+            <select
+              value={selectBuyerParty?.name || ""}
+              onChange={buyerPartySelect}
+              className="party-select"
+            >
               <option value="" disabled>Select Buyer Firm Name</option>
               {parties.map((party, index) => (
                 <option key={index} value={party.name}>{party.name}</option>
@@ -207,122 +153,114 @@ const InvoiceForm = () =>
       </HStack>
 
       {/* Product Information */}
-      <FormControl as="form" onSubmit={handleSubmit} style={styles.form}>
-        <Text style={styles.text}>Product Description</Text>
+      <FormControl as="form" onSubmit={handleSubmit}>
+        <Text className="product-transport-header">Product & Transport Information</Text>
 
-        {/* Use VStack for vertical alignment of input fields */}
-        <VStack spacing={4} align="stretch" w="100%">
-
-          <HStack justifyContent="space-between" w="100%">
-            <Text w="65%">Product Name:</Text>
-            <Input
-              type="text"
-              placeholder="Enter the Product name"
-              value={productName}
-              onChange={handleName}
-              style={styles.input}
-              w="58%" // Align input width relative to parent
-            />
+        <VStack spacing={4} align="stretch" className="product-transport-wrapper">
+          {/* Product Details */}
+          <HStack className="input-row">
+            <Text className="input-label">Product Name:</Text>
+            <Input value={productName} onChange={handleName} className="input-field" />
           </HStack>
 
-          <HStack justifyContent="space-between" w="100%">
-            <Text w="65%">Product HSN Code:</Text>
-            <Input
-              type="text"
-              placeholder="Enter Product HSN Code"
-              value={productHSNCode}
-              onChange={handleCode}
-              style={styles.input}
-              w="58%" // Align input width relative to parent
-            />
+          <HStack className="input-row">
+            <Text className="input-label">Product HSN Code:</Text>
+            <Input value={productHSNCode} onChange={handleCode} className="input-field" />
           </HStack>
 
-          <HStack justifyContent="space-between" w="100%">
-            <Text w="65%">Product Quantity in Kg:</Text>
-            <Input
-              type="text"
-              placeholder="Quantity"
-              value={productQuantity}
-              onChange={handleQuantity}
-              style={styles.input}
-              w="58%" // Align input width relative to parent
-            />
+          <HStack className="input-row">
+            <Text className="input-label">Quantity (Kg):</Text>
+            <Input value={productQuantity} onChange={handleQuantity} className="input-field" />
           </HStack>
 
-          <HStack justifyContent="space-between" w="100%">
-            <Text w="65%">Product Rate in Kg:</Text>
-            <Input
-              type="text"
-              placeholder="Rate"
-              value={productRate}
-              onChange={handleRate}
-              style={styles.input}
-              w="58%" // Align input width relative to parent
-            />
+          <HStack className="input-row">
+            <Text className="input-label">Rate (₹ per Kg):</Text>
+            <Input value={productRate} onChange={handleRate} className="input-field" />
+          </HStack>
+          {/* GST Selection */}
+          <HStack className="input-row">
+            <Text className="input-label">GST Type:</Text>
+            <select value={gstType} onChange={handleGstSelect} className="gst-select">
+              <option value="">Select GST Type</option>
+              <option value="sgst-cgst">SGST + CGST (18%)</option>
+              <option value="igst">IGST (18%)</option>
+            </select>
           </HStack>
 
+          {/* Transport Details */}
+          <HStack className="input-row">
+            <Text className="input-label">Transport Start Place:</Text>
+            <Input value={transportStart} onChange={handleTransportStart} className="input-field" />
+          </HStack>
+
+          <HStack className="input-row">
+            <Text className="input-label">Transport End Place:</Text>
+            <Input value={transportEnd} onChange={handleTransportEnd} className="input-field" />
+          </HStack>
+
+          <HStack className="input-row">
+            <Text className="input-label">Transporter Name:</Text>
+            <Input value={transporterName} onChange={handleTransporterName} className="input-field" />
+          </HStack>
+
+          <HStack className="input-row">
+            <Text className="input-label">Vehicle/Truck No:</Text>
+            <Input value={truckNumber} onChange={handleTruckNumber} className="input-field" />
+          </HStack>
+
+          <HStack className="input-row">
+            <Text className="input-label">LR Number:</Text>
+            <Input value={lrNumber} onChange={handleLrNumber} className="input-field" />
+          </HStack>
+
+          <Button type="submit" className="submit-button">Generate Invoice</Button>
         </VStack>
+      </FormControl>
 
-        <Button mt={4} type="submit" style={styles.btn}>
-          Submit
-        </Button>
-        {error && <Text color="red.500">{error}</Text>}
-    </FormControl>
+      {error && <Text className="error-text">{error}</Text>}
 
+      {/* Invoice Preview */}
       {showPreview && (
-        <>
-          <Divider my={6} />
-          <Box bg="gray.50" p={5} borderRadius="md" boxShadow="md" w="100%">
-            <Text textAlign="center" fontSize="lg" fontWeight="bold">Invoice Preview</Text>
+        <Box className="invoice-preview">
+          <Text className="preview-header">Invoice Preview</Text>
 
-            {/* Seller Information */}
-            {selectSellerParty && (
-              <Box mt={4} >
-                <Text fontWeight="bold">Seller Information:</Text>
-                <Text>Name: {selectSellerParty.name}</Text>
-                <Text>Address: {selectSellerParty.address}</Text>
-                <Text>City: {selectSellerParty.city}</Text>
-                <Text>State: {selectSellerParty.state}</Text>
-                <Text>GST No: {selectSellerParty.gstNo}</Text>
-              </Box>
-            )}
+          <Divider />
 
-            {/* Buyer Information */}
-            {selectBuyerParty && (
-              <Box mt={4} >
-                <Text fontWeight="bold" >Buyer Information:</Text>
-                <Text>Name: {selectBuyerParty.name}</Text>
-                <Text>Address: {selectBuyerParty.address}</Text>
-                <Text>City: {selectBuyerParty.city}</Text>
-                <Text>State: {selectBuyerParty.state}</Text>
-                <Text>GST No: {selectBuyerParty.gstNo}</Text>
-              </Box>
-            )}
+          <Text><strong>Invoice Number:</strong> {invoiceNo}</Text>
+          {/* Display Seller details  */}
+          <Text><strong>Seller:</strong> {selectSellerParty?.name}</Text>
+          <Text><strong>Address:</strong> {selectSellerParty.address}</Text>
+          <Text><strong>City:</strong> {selectSellerParty.city}</Text>
+          <Text><strong>State:</strong> {selectSellerParty.state}</Text>
+          <Text><strong>GST No:</strong> {selectSellerParty.gstNo}</Text>
+          
+          {/* Displai Buyer details */}
+          <Text><strong>Buyer:</strong> {selectBuyerParty?.name}</Text>
+          <Text><strong>Name:</strong> {selectSellerParty.name}</Text>
+          <Text><strong>Address:</strong> {selectSellerParty.address}</Text>
+          <Text><strong>City:</strong> {selectSellerParty.city}</Text>
+          <Text><strong>State:</strong> {selectSellerParty.state}</Text>
+          <Text><strong>GST No:</strong> {selectSellerParty.gstNo}</Text>
+          
+          {/* Display product and Tax details */}
+          <Text><strong>Product:</strong> {productName}</Text>
+          <Text><strong>HSN Code:</strong> {productHSNCode}</Text>
+          <Text><strong>Quantity:</strong> {productQuantity} Kg</Text>
+          <Text><strong>Rate:</strong> ₹{productRate} per Kg</Text>
+          <Text><strong>Taxable Value:</strong> ₹{taxableValue}</Text>
+          <Text><strong>GST:</strong> ₹{gstAmount}</Text>
+          <Text><strong>Total Amount:</strong> ₹{totalAmount}</Text>
 
-            {/* Product Information */}
-            <Box mt={4}>
-              <Text fontWeight="bold">Product Details:</Text>
-              <Text>Product Name: {productName}</Text>
-              <Text>HSN Code: {productHSNCode}</Text>
-              <Text>Quantity in Kg: {productQuantity}</Text>
-              <Text>Rate per Kg: {productRate}</Text>
-              <Text>Taxable Value : ₹{taxableValue}</Text>
+          <Divider />
 
-              
-               <HStack mt={4}>
-                 <Text>GST Type:</Text>
-                 <select w="30%" value={gstType} onChange={handleGstSelect}>
-                   <option value="" disabled>Select GST</option>
-                   <option value="sgst-cgst">SGST 9% + CGST 9%</option>
-                   <option value="igst">IGST 18%</option>
-                 </select>
-               </HStack>
-
-               <Text mt={4}>GST Amount: ₹{gstAmount}</Text>
-               <Text fontWeight="bold" mt={2}>Total: ₹{totalAmount}</Text>
-            </Box>
-          </Box>
-        </>
+          {/* Display transportation details */}
+          <Text className="transport-header">Transport Details</Text>
+          <Text><strong>Starting Point:</strong> {transportStart}</Text>
+          <Text><strong>Destination:</strong> {transportEnd}</Text>
+          <Text><strong>Transporter Name:</strong> {transporterName}</Text>
+          <Text><strong>Truck Number:</strong> {truckNumber}</Text>
+          <Text><strong>LR Number:</strong> {lrNumber}</Text>
+        </Box>
       )}
     </VStack>
   );

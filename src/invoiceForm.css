@@ -1,56 +1,96 @@
-
-.invoice-form 
-{
-    background-color: #f5f5f5; /* Light background for light mode */
-    padding: 20px;
-    border-radius: 5px;
-}
+.invoice-form-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
   
-.invoice-form label 
-{
+  .form-header {
+    font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
+    margin-bottom: 1rem;
+    text-align: center;
+  }
   
-.invoice-form select,
-.invoice-form input {
-    padding: 10px; /* Consistent padding */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; /* Ensure full width for most elements */
-    margin-bottom: 15px;
-}
+  .seller-buyer-wrapper {
+    width: 100%;
+  }
   
-.invoice-form .seller-buyer {
-    display: flex; /* Arrange seller/buyer info side-by-side */
-    justify-content: space-between; /* Distribute evenly */
-    margin-bottom: 20px;
-}
+  .party-box {
+    width: 48%;
+  }
   
-.invoice-form .seller-buyer > div {
-    width: 48%; /* Set individual widths for balanced layout */
-}
+  .party-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
   
-.invoice-form .product-details {
-    border-top: 1px solid #ccc;
-    padding-top: 15px;
-}
+  .party-select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
   
-.invoice-form .product-details > p {
-    margin-bottom: 5px;
-}
+  .product-transport-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
   
-.invoice-form button {
-    background-color: #007bff; /* Blue button */
-    color: #fff; /* White text */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer; /* Indicate clickable button */
-}
+  .product-transport-wrapper {
+    width: 100%;
+  }
   
-.invoice-form button:hover {
-    background-color: #0069d9; /* Slightly darker on hover */
-}
-
+  .input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .input-label {
+    width: 40%;
+    font-weight: bold;
+  }
+  
+  .input-field {
+    width: 60%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .gst-select {
+    width: 60%;
+    padding: 0.5rem;
+  }
+  
+  .submit-button {
+    background-color: #3182CE;
+    color: white;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .error-text {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .invoice-preview {
+    background-color: white;
+    border: 1px solid black;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .preview-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .transport-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
