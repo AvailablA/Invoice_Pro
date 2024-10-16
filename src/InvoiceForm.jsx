@@ -6,8 +6,6 @@ import './InvoiceForm.css';
 
 const InvoiceForm = () => {
 
-  // const [invoiceNo, setInvoiceNo] = useState(0);
-
   // Seller data
   const [selectSellerParty, setSelectSellerParty] = useState(null);
 
@@ -26,22 +24,6 @@ const InvoiceForm = () => {
     setSelectBuyerParty(partyDetails);
   };
 
-  // Transport details
-  const [transportStart, setTransportStart] = useState("");
-  const handleTransportStart = (e) => setTransportStart(e.target.value);
-
-  const [transportEnd, setTransportEnd] = useState("");
-  const handleTransportEnd = (e) => setTransportEnd(e.target.value);
-
-  const [transporterName, setTransporterName] = useState("");
-  const handleTransporterName = (e) => setTransporterName(e.target.value);
-
-  const [truckNumber, setTruckNumber] = useState("");
-  const handleTruckNumber = (e) => setTruckNumber(e.target.value);
-
-  const [lrNumber, setLrNumber] = useState("");
-  const handleLrNumber = (e) => setLrNumber(e.target.value);
-
   const [error, setError] = useState("");
 
   const [productName, setProductName] = useState("");
@@ -58,6 +40,7 @@ const InvoiceForm = () => {
 
   const [taxableValue, setTaxableValue] = useState("");
 
+
   // for GST selection
   const [gstType, setGstType] = useState(""); 
   const handleGstSelect = (e) => {
@@ -72,6 +55,22 @@ const InvoiceForm = () => {
 
   const [invoiceNo, setInvoiceNo] = useState(""); // New state for invoice number
   const handleInvoiceNo = (e)=> setInvoiceNo(e.target.value);
+
+    // Transport details
+    const [transportStart, setTransportStart] = useState("");
+    const handleTransportStart = (e) => setTransportStart(e.target.value);
+  
+    const [transportEnd, setTransportEnd] = useState("");
+    const handleTransportEnd = (e) => setTransportEnd(e.target.value);
+  
+    const [transporterName, setTransporterName] = useState("");
+    const handleTransporterName = (e) => setTransporterName(e.target.value);
+  
+    const [truckNumber, setTruckNumber] = useState("");
+    const handleTruckNumber = (e) => setTruckNumber(e.target.value);
+  
+    const [lrNumber, setLrNumber] = useState("");
+    const handleLrNumber = (e) => setLrNumber(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
