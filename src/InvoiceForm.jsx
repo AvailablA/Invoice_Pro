@@ -56,9 +56,10 @@ const InvoiceForm = () => {
   const [productRate, setProductRate] = useState("");
   const handleRate = (e) => setProductRate(e.target.value);
 
-  const [taxableValue, setTaxableValue] = useState(0);
+  const [taxableValue, setTaxableValue] = useState("");
 
-  const [gstType, setGstType] = useState(""); // for GST selection
+  // for GST selection
+  const [gstType, setGstType] = useState(""); 
   const handleGstSelect = (e) => {
     const selectedGst = e.target.value;
     setGstType(selectedGst);
