@@ -1,96 +1,180 @@
+/* InvoiceForm.css */
+
+/* General wrapper for the form */
 .invoice-form-wrapper {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  
-  .form-header {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.input-label {
+  font-size: 1rem;
+  font-weight: 500;
+  width: 48%;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.party-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+}
+
+.seller-buyer-wrapper {
+  display: flex;
+  justify-content: space-between; /* Makes sure both parties are aligned side by side */
+  padding: 10px 0;
+  gap: 20px;
+}
+
+
+.party-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.party-box {
+  width: 45%;
+}
+
+.product-transport-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.gst-select {
+  width: 70%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Invoice Preview */
+.invoice-preview {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.preview-sellerBox {
+  width: 50%;
+  flex-direction: column;
+  border-radius: 5px solid black;
+}
+.preview-buyerBox {
+  width: 50%;
+  flex-direction: column;
+  border-radius: 5px solid black;
+}
+.box-seller-buyer-wrapper {
+  display: flex;
+  /* border: 2PX solid red; */
+  width: 100%;
+  height: auto;
+  justify-content: space-between; /* Makes sure both parties are aligned side by side  */
+  padding: 10px 0;
+  gap: 20px;
+
+}
+.preview-sellerBox, .preview-buyerBox {
+  width: 45%; /* Ensure both boxes take up equal width */
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.preview-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.transport-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Divider styling */
+hr {
+  border: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
   .seller-buyer-wrapper {
-    width: 100%;
+    flex-direction: column; /* Stacks buyer and seller on top of each other on mobile */
   }
-  
-  .party-box {
-    width: 48%;
+
+  .input-row {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .party-header {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
+
+  .input-label,
+  .input-field,
   .party-select {
     width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
   }
-  
-  .product-transport-header {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  .product-transport-wrapper {
-    width: 100%;
-  }
-  
-  .input-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .input-label {
-    width: 40%;
-    font-weight: bold;
-  }
-  
-  .input-field {
-    width: 60%;
-    padding: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .gst-select {
-    width: 60%;
-    padding: 0.5rem;
-  }
-  
+
   .submit-button {
-    background-color: #3182CE;
-    color: white;
-    width: 100%;
-    padding: 0.75rem;
     font-size: 1rem;
-    margin-top: 1rem;
   }
-  
-  .error-text {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .invoice-preview {
-    background-color: white;
-    border: 1px solid black;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-  }
-  
-  .preview-header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  .transport-header {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
+}

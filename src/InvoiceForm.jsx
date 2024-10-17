@@ -226,40 +226,46 @@ const InvoiceForm = () => {
 
           <Divider />
 
-          <Text><strong>Invoice Number:</strong> {invoiceNo}</Text>
-          {/* Display Seller details  */}
-          <Text><strong>Seller:</strong> {selectSellerParty?.name}</Text>
-          <Text><strong>Address:</strong> {selectSellerParty.address}</Text>
-          <Text><strong>City:</strong> {selectSellerParty.city}</Text>
-          <Text><strong>State:</strong> {selectSellerParty.state}</Text>
-          <Text><strong>GST No:</strong> {selectSellerParty.gstNo}</Text>
           
-          {/* Displai Buyer details */}
-          <Text><strong>Buyer:</strong> {selectBuyerParty?.name}</Text>
-          <Text><strong>Name:</strong> {selectSellerParty.name}</Text>
-          <Text><strong>Address:</strong> {selectSellerParty.address}</Text>
-          <Text><strong>City:</strong> {selectSellerParty.city}</Text>
-          <Text><strong>State:</strong> {selectSellerParty.state}</Text>
-          <Text><strong>GST No:</strong> {selectSellerParty.gstNo}</Text>
+          <Text className="box-party-header"><strong>Invoice Number:</strong> {invoiceNo || ""}</Text>
+          <Box className="box-seller-buyer-wrapper">
+            <Box className="preview-sellerBox">
+              {/* Display Seller details */}
+              <Text><strong>Seller:</strong> {selectSellerParty?.name || ""}</Text>
+              <Text><strong>Address:</strong> {selectSellerParty.address || ""}</Text>
+              <Text><strong>City:</strong> {selectSellerParty.city || ""}</Text>
+              <Text><strong>State:</strong> {selectSellerParty.state || ""}</Text>
+              <Text><strong>GST No:</strong> {selectSellerParty.gstNo || ""}</Text>
+            </Box>
+
+            <Box className="preview-buyerBox">
+              {/* Display Buyer details */}
+              <Text><strong>Buyer:</strong> {selectBuyerParty?.name || ""}</Text>
+              <Text><strong>Address:</strong> {selectBuyerParty.address || ""}</Text>
+              <Text><strong>City:</strong> {selectBuyerParty.city || ""}</Text>
+              <Text><strong>State:</strong> {selectBuyerParty.state || ""}</Text>
+              <Text><strong>GST No:</strong> {selectBuyerParty.gstNo || ""}</Text>
+            </Box>
+          </Box>
           
           {/* Display product and Tax details */}
-          <Text><strong>Product:</strong> {productName}</Text>
-          <Text><strong>HSN Code:</strong> {productHSNCode}</Text>
-          <Text><strong>Quantity:</strong> {productQuantity} Kg</Text>
-          <Text><strong>Rate:</strong> ₹{productRate} per Kg</Text>
-          <Text><strong>Taxable Value:</strong> ₹{taxableValue}</Text>
-          <Text><strong>GST:</strong> ₹{gstAmount}</Text>
-          <Text><strong>Total Amount:</strong> ₹{totalAmount}</Text>
+          <Text><strong>Product:</strong> {productName || ""}</Text>
+          <Text><strong>HSN Code:</strong> {productHSNCode || ""}</Text>
+          <Text><strong>Quantity:</strong> {productQuantity || ""} Kg</Text>
+          <Text><strong>Rate:</strong> ₹{productRate || ""} per Kg</Text>
+          <Text><strong>Taxable Value:</strong> ₹{taxableValue || ""}</Text>
+          <Text><strong>GST:</strong> ₹{gstAmount || ""}</Text>
+          <Text><strong>Total Amount:</strong> ₹{totalAmount || ""}</Text>
 
           <Divider />
 
           {/* Display transportation details */}
           <Text className="transport-header">Transport Details</Text>
-          <Text><strong>Starting Point:</strong> {transportStart}</Text>
-          <Text><strong>Destination:</strong> {transportEnd}</Text>
-          <Text><strong>Transporter Name:</strong> {transporterName}</Text>
-          <Text><strong>Truck Number:</strong> {truckNumber}</Text>
-          <Text><strong>LR Number:</strong> {lrNumber}</Text>
+          <Text><strong>Starting Point:</strong> {transportStart || ""}</Text>
+          <Text><strong>Destination:</strong> {transportEnd || ""}</Text>
+          <Text><strong>Transporter Name:</strong> {transporterName || ""}</Text>
+          <Text><strong>Truck Number:</strong> {truckNumber || ""}</Text>
+          <Text><strong>LR Number:</strong> {lrNumber || ""}</Text>
         </Box>
       )}
     </VStack>
