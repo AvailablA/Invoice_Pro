@@ -121,12 +121,17 @@
   flex-direction: column;
   border-radius: 5px solid black;
 }
+.preview-productBox {
+  width: 80%;
+  flex-direction: column;
+  border-radius: 5px solid black;
+}
 .box-seller-buyer-wrapper {
   display: flex;
   /* border: 2PX solid red; */
   width: 100%;
   height: auto;
-  justify-content: space-between; /* Makes sure both parties are aligned side by side  */
+  /* justify-content: space-between; Makes sure both parties are aligned side by side  */
   padding: 10px 0;
   gap: 20px;
 

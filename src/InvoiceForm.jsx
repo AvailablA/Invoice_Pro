@@ -35,6 +35,9 @@ const InvoiceForm = () => {
   const [productQuantity, setProductQuantity] = useState("");
   const handleQuantity = (e) => setProductQuantity(e.target.value);
 
+  const [selectProductUnit, setProductUnit] = useState("");
+  const handleProductUnit = (e)=> setProductUnit(e.target.value);
+
   const [productRate, setProductRate] = useState("");
   const handleRate = (e) => setProductRate(e.target.value);
 
@@ -154,7 +157,7 @@ const InvoiceForm = () => {
 
       {/* Product Information */}
       <FormControl as="form" onSubmit={handleSubmit}>
-        <Text className="product-transport-header">Product & Transport Information</Text>
+        <Text className="product-transport-header">Product Information</Text>
 
         <VStack spacing={4} align="stretch" className="product-transport-wrapper">
           {/* Product Details */}
@@ -169,12 +172,22 @@ const InvoiceForm = () => {
           </HStack>
 
           <HStack className="input-row">
-            <Text className="input-label">Quantity (Kg):</Text>
+            <Text className="input-label">Product Quantity :</Text>
             <Input value={productQuantity} onChange={handleQuantity} className="input-field" />
           </HStack>
 
           <HStack className="input-row">
-            <Text className="input-label">Rate (₹ per Kg):</Text>
+            <Text className="input-label">Product Unit :</Text>
+            <select value={selectProductUnit} onChange={handleProductUnit} className="gst-select">
+              <option value="">Select Unit</option>
+              <option value="Kg">Kg</option>
+              <option value="Nos">Nos</option>
+              <option value="Litre">Litre</option>
+            </select>
+          </HStack>
+
+          <HStack className="input-row">
+            <Text className="input-label">Rate :</Text>
             <Input value={productRate} onChange={handleRate} className="input-field" />
           </HStack>
           {/* GST Selection */}
@@ -186,7 +199,8 @@ const InvoiceForm = () => {
               <option value="igst">IGST (18%)</option>
             </select>
           </HStack>
-
+          
+          <Text className="product-transport-header">Transport Information</Text>
           {/* Transport Details */}
           <HStack className="input-row">
             <Text className="input-label">Transport Start Place:</Text>
@@ -247,25 +261,30 @@ const InvoiceForm = () => {
               <Text><strong>GST No:</strong> {selectBuyerParty.gstNo || ""}</Text>
             </Box>
           </Box>
-          
-          {/* Display product and Tax details */}
-          <Text><strong>Product:</strong> {productName || ""}</Text>
-          <Text><strong>HSN Code:</strong> {productHSNCode || ""}</Text>
-          <Text><strong>Quantity:</strong> {productQuantity || ""} Kg</Text>
-          <Text><strong>Rate:</strong> ₹{productRate || ""} per Kg</Text>
-          <Text><strong>Taxable Value:</strong> ₹{taxableValue || ""}</Text>
-          <Text><strong>GST:</strong> ₹{gstAmount || ""}</Text>
-          <Text><strong>Total Amount:</strong> ₹{totalAmount || ""}</Text>
-
+          <Box box-seller-buyer-wrapper>
+            <Box className="preview-productBox">
+              {/* Display product and Tax details */}
+              <Text><strong>Product:</strong> {productName || ""}</Text>
+              <Text><strong>HSN Code:</strong> {productHSNCode || ""}</Text>
+              <Text><strong>Quantity:</strong> {productQuantity || ""} {selectProductUnit || ""}</Text>
+              <Text><strong>Rate:</strong> ₹{productRate || ""} per {selectProductUnit || ""}</Text>
+              <Text><strong>Taxable Value:</strong> ₹{taxableValue || ""}</Text>
+              <Text><strong>GST:</strong> ₹{gstAmount || ""}</Text>
+              <Text><strong>Total Amount:</strong> ₹{totalAmount || ""}</Text>
+            </Box>
+          </Box>
           <Divider />
-
-          {/* Display transportation details */}
-          <Text className="transport-header">Transport Details</Text>
-          <Text><strong>Starting Point:</strong> {transportStart || ""}</Text>
-          <Text><strong>Destination:</strong> {transportEnd || ""}</Text>
-          <Text><strong>Transporter Name:</strong> {transporterName || ""}</Text>
-          <Text><strong>Truck Number:</strong> {truckNumber || ""}</Text>
-          <Text><strong>LR Number:</strong> {lrNumber || ""}</Text>
+          <Box className="box-seller-buyer-wrapper">
+            <Box className="preview-sellerBox">
+              {/* Display transportation details */}
+              <Text className="transport-header">Transport Details</Text>
+              <Text><strong>Starting Point:</strong> {transportStart || ""}</Text>
+              <Text><strong>Destination:</strong> {transportEnd || ""}</Text>
+              <Text><strong>Transporter Name:</strong> {transporterName || ""}</Text>
+              <Text><strong>Truck Number:</strong> {truckNumber || ""}</Text>
+              <Text><strong>LR Number:</strong> {lrNumber || ""}</Text>
+            </Box>
+          </Box>
         </Box>
       )}
     </VStack>
